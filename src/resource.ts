@@ -34,6 +34,7 @@ export class Resource implements ICacheable {
     public source: SourceType = 'new';
     public cache_last_update = 0;
     public ttl = 0;
+    public data_resource: any;
 
     public reset(): void {
         this.id = '';
@@ -170,6 +171,7 @@ export class Resource implements ICacheable {
         // WARNING: leaving previous line for a tiem because this can produce undesired behavior
         // this.attributes = data_object.data.attributes || this.attributes;
         this.attributes = { ...(this.attributes || {}), ...data_object.data.attributes };
+        this.data_resource = data_object;
 
         this.is_new = false;
 
@@ -331,7 +333,7 @@ export class Resource implements ICacheable {
             }
         );
 
-        return subject;
+        return subject.asObservable();
     }
 
     public setLoaded(value: boolean): void {

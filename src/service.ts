@@ -77,6 +77,15 @@ export class Service<R extends Resource = Resource> {
         );
     }
 
+    public pathForGet(id: string, params: IParamsResource = {}): string {
+      params = { ...Base.ParamsResource, ...params };
+
+      let path = new PathBuilder();
+      path.applyParams(this, params);
+      path.appendPath(id);
+      return path.get();
+    }
+
     // if you change this logic, maybe you need to change all()
     public get(id: string, params: IParamsResource = {}): Observable<R> {
         params = { ...Base.ParamsResource, ...params };
@@ -183,7 +192,7 @@ export class Service<R extends Resource = Resource> {
     }
 
     public getOrCreateResource(id: string): R {
-        let service = Converter.getServiceOrFail(this.type);
+        let service = this.getService();
         let resource: R;
 
         resource = <R>CacheMemory.getInstance().getResource(this.type, id);
@@ -258,6 +267,15 @@ export class Service<R extends Resource = Resource> {
         );
 
         return subject.asObservable();
+    }
+
+    public pathForAll(params: IParamsCollection = {}): string {
+      let builded_params: IBuildedParamsCollection = { ...Base.ParamsCollection, ...params };
+      
+      let path = new PathCollectionBuilder();
+      path.applyParams(this, builded_params);
+
+      return path.get()
     }
 
     // if you change this logic, maybe you need to change get()
@@ -366,8 +384,10 @@ export class Service<R extends Resource = Resource> {
                 temporary_collection.setLoadedAndPropagate(true);
 
                 // this.getService().cachememory.setCollection(path.getForCache(), temporary_collection);
-                let json_ripper = new JsonRipper();
-                json_ripper.saveCollection(path.getForCache(), temporary_collection, path.includes);
+                if (Core.injectedServices.rsJsonapiConfig.cachestore_support) {
+                  let json_ripper = new JsonRipper();
+                  json_ripper.saveCollection(path.getForCache(), temporary_collection, path.includes);
+                }
                 if (Core.injectedServices.rsJsonapiConfig.cachestore_support && params.store_cache_method === 'compact') {
                     // @todo migrate to dexie
                     Core.injectedServices.JsonapiStoreService.saveCollection(path.getForCache() + '.compact', <ICacheableDataCollection>(

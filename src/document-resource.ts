@@ -9,10 +9,12 @@ export class DocumentResource<R extends Resource = Resource> extends Document {
     public data: R | null | undefined = <R>new Resource();
     public builded = false;
     public content: 'id' | 'resource' = 'id';
+    public data_resource: IDocumentResource | null;
 
     public fill(data_resource: IDocumentResource | null): void {
         this.builded = false;
         this.content = 'id';
+        this.data_resource = data_resource;
 
         if (data_resource === null) {
             this.data = null;

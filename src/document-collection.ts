@@ -16,6 +16,7 @@ export class RelatedDocumentCollection<R extends Resource = Resource> extends Do
     public page = new Page();
     public ttl = 0;
     public content: 'ids' | 'collection' = 'ids';
+    public data_collection: IDataCollection;
 
     public trackBy(iterated_resource: Resource): string {
         return iterated_resource.id;
@@ -37,6 +38,8 @@ export class RelatedDocumentCollection<R extends Resource = Resource> extends Do
     }
 
     public fill(data_collection: IDataCollection | ICacheableDataCollection): void {
+        
+        this.data_collection = data_collection;
         Converter.buildIncluded(data_collection);
 
         // sometimes get Cannot set property 'number' of undefined (page)

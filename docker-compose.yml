@@ -1,0 +1,14 @@
+version: '3'
+services:
+  builder:
+    container_name: ngx-jsonapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: 'host'
+    volumes:
+      - .:/home/deploy/ngx-jsonapi
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
