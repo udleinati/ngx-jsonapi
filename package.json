@@ -153,6 +153,7 @@
         "zone.js": "^0.8.12"
     },
     "dependencies": {
+        "@nguniversal/express-engine": "^9.0.1",
         "dexie": "^2.0.4",
         "lodash": "^4.17.15",
         "rxjs": "^6.2"
