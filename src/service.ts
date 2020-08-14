@@ -271,7 +271,7 @@ export class Service<R extends Resource = Resource> {
 
     public pathForAll(params: IParamsCollection = {}): string {
       let builded_params: IBuildedParamsCollection = { ...Base.ParamsCollection, ...params };
-      
+
       let path = new PathCollectionBuilder();
       path.applyParams(this, builded_params);
 
