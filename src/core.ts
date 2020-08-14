@@ -9,8 +9,7 @@ import { JsonapiConfig } from './jsonapi-config';
 import { Http as JsonapiHttpImported } from './sources/http.service';
 import { StoreService as JsonapiStore } from './sources/store.service';
 import { IDocumentResource } from './interfaces/data-object';
-import { noop } from 'rxjs/internal/util/noop';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, noop } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { IDocumentData } from './interfaces/document';
 
